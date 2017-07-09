@@ -1,0 +1,29 @@
+{
+    "name": "lewiscowles/rfc1867",
+    "description": "rfc-1867 implementation for PHP",
+    "type": "library",
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "ext-xdebug": "*",
+        "phpunit/phpunit": "^5.4"
+    },
+    "authors": [
+        {
+            "name": "Lewis Cowles",
+            "email": "lewiscowles@me.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "psr/http-message": "^1.0",
+        "guzzlehttp/psr7": "^1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "imiskolee\\Http\\": "src",
+            "lewiscowles\\Http\\": "src"
+        }
+    }
+}
