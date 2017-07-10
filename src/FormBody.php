@@ -10,6 +10,7 @@ use lewiscowles\Rfc\NodeInterface;
 use Psr\Http\Message\RequestInterface;
 
 use GuzzleHttp\Psr7\Stream;
+use function GuzzleHttp\Psr7\stream_for;
 
 Final class FormBody {
 
@@ -20,12 +21,12 @@ Final class FormBody {
         $this->state = $initialState;
     }
 
-    public function addAttachment(string $name, $value, string $mimeType, string $fileName) {
+    public function addAttachment(string $name, Stream $value, string $mimeType, string $fileName) {
         $this->state->add(
             new Attachment(
                 $fileName,
                 $name,
-                $this->getPayloadStream($value),
+                $value,
                 $mimeType,
                 $this->attachmentType($name)
             )
@@ -43,13 +44,6 @@ Final class FormBody {
         $this->state->add(new FormInput($name, $value));
     }
 
-    private function getPayloadStream($data) {
-        $stream = fopen('php://memory','w+');
-        fwrite($stream, "{$data}");
-        rewind($stream);
-        return new Stream($stream);
-    }
-
     public function __toString() {
         return "{$this->state}";
     }
@@ -57,7 +51,7 @@ Final class FormBody {
     public function submit(RequestInterface $request) {
         return $request
             ->withBody(
-                $this->getPayloadStream("$this->state")
+                stream_for("$this->state")
             )
             ->withMethod(self::HTTP_METHOD);
     }

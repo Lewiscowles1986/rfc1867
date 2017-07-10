@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 
 use GuzzleHttp\Psr7\Request;
+use function GuzzleHttp\Psr7\stream_for;
 
 use lewiscowles\Rfc\Envelope;
 use lewiscowles\Rfc\FormBody;
@@ -63,7 +64,7 @@ class BasicTest extends TestCase
      */
     public function it_produces_the_output_described_in_rfc_example1() {
         $this->body->addFormInput('submitter', 'Joe Blow');
-        $this->body->addAttachment('file1', '...contents of file1.txt...', 'text/plain', 'file1.txt');
+        $this->body->addAttachment('file1', stream_for('...contents of file1.txt...'), 'text/plain', 'file1.txt');
         $body = "{$this->body}";
 
         $this->assertContains(self::JOE_BLOW_TEXT, $body);
@@ -78,8 +79,8 @@ class BasicTest extends TestCase
         $this->body->addFormInput('submitter', 'Joe Blow');
 
         // note when adding multiple attachments, the value changes after the first is added.
-        $this->body->addAttachment('pics', '...contents of file1.txt...', 'text/plain', 'file1.txt');
-        $this->body->addAttachment('pics', '...contents of file2.gif...', 'image/gif', 'file2.gif');
+        $this->body->addAttachment('pics', stream_for('...contents of file1.txt...'), 'text/plain', 'file1.txt');
+        $this->body->addAttachment('pics', stream_for('...contents of file2.gif...'), 'image/gif', 'file2.gif');
 
         $body = "{$this->body}";
 
