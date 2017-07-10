@@ -9,6 +9,7 @@
         "ext-xdebug": "*",
         "phpunit/phpunit": "^5.4"
     },
+    "license": "AGPL",
     "authors": [
         {
             "name": "Lewis Cowles",
