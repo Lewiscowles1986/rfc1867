@@ -22,11 +22,8 @@ Final class Envelope implements NodeInterface {
         $this->name = $name;
         $this->type = $type !== '' ? $type : self::TYPE_FORM_DATA;
         $this->boundary = sprintf(
-            "%04X%04X%04X%04X",
-            rand(0,65535),
-            rand(0,65535),
-            rand(0,65535),
-            rand(0,65535)
+            "%016X",
+            random_int(0,PHP_INT_MAX)
         );
     }
 
