@@ -18,12 +18,12 @@ class BasicTest extends TestCase
     const FILE2_TEXT_MULTI = 'content-disposition: attachment; filename="file2.gif"'."\n".'content-type: image/gif'."\n".
                        'content-transfer-encoding: binary'."\n\n".'...contents of file2.gif...';
     const ENVELOPE_MULTI = 'content-disposition: form-data; name="pics"'."\n".'content-type: multipart/mixed, boundary=';
-    
+
     public function setup()
     {
         $this->body = new FormBody(new Envelope('ROOT'));
     }
-    
+
     /**
      * @test
      */
@@ -32,7 +32,7 @@ class BasicTest extends TestCase
         $out = $this->body->submit($request);
         $this->assertTrue($out->getMethod() == FormBody::HTTP_METHOD);
     }
-    
+
     /**
      * @test
      */
@@ -41,14 +41,14 @@ class BasicTest extends TestCase
         $out = $this->body->submit($request);
         $this->assertTrue($request->getMethod() != $out->getMethod());
     }
-    
+
     /**
      * @test
      */
     public function it_accepts_a_form_input() {
         $this->body->addFormInput('number', $this->getValue('number'));
     }
-    
+
     /**
      * @test
      */
@@ -57,7 +57,7 @@ class BasicTest extends TestCase
         $this->body->addFormInput('float', $this->getValue('float'));
         $this->body->addFormInput('string', $this->getValue('string'));
     }
-    
+
     /**
      * @test
      */
@@ -65,31 +65,31 @@ class BasicTest extends TestCase
         $this->body->addFormInput('submitter', 'Joe Blow');
         $this->body->addAttachment('file1', '...contents of file1.txt...', 'text/plain', 'file1.txt');
         $body = "{$this->body}";
-        
+
         $this->assertContains(self::JOE_BLOW_TEXT, $body);
         $this->assertContains(self::JOE_BLOW_TEXT, $body);
         $this->assertContains(self::FILE1_TEXT_FLAT, $body);
     }
-    
+
     /**
      * @test
      */
     public function it_produces_the_output_described_in_rfc_example2() {
         $this->body->addFormInput('submitter', 'Joe Blow');
-        
+
         // note when adding multiple attachments, the value changes after the first is added.
         $this->body->addAttachment('pics', '...contents of file1.txt...', 'text/plain', 'file1.txt');
         $this->body->addAttachment('pics', '...contents of file2.gif...', 'image/gif', 'file2.gif');
-        
+
         $body = "{$this->body}";
-        
+
         $this->assertContains(self::JOE_BLOW_TEXT, $body);
         $this->assertContains(self::ENVELOPE_MULTI, $body);
         $this->assertContains(self::FILE1_TEXT_MULTI, $body);
         $this->assertContains(self::FILE2_TEXT_MULTI, $body);
-        //file_put_contents(__DIR__ . '/../tmp/out', $body);
+        //file_put_contents(__DIR__ . '/../log/out', $body);
     }
-    
+
     protected function getValue($type) {
         switch(strtolower($type)) {
             case 'number':
@@ -104,4 +104,3 @@ class BasicTest extends TestCase
         return true;
     }
 }
-
