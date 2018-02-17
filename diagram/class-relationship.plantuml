@@ -1,0 +1,106 @@
+@startuml
+interface NodeInterface {
+    const DISPOSITION_FORMDATA = "form-data";
+    const DISPOSITION_ATTACHMENT = "attachment";
+    const HEADER_DISPOSITION = "content-disposition";
+    const HEADER_CONTENT_TYPE = "content-type";
+    const ATTRIB_NAME = "name";
+    const ATTRIB_FILENAME = "filename";
+
+    +__toString()
+    +add(NodeInterface $node)
+    +getName()
+    +setContentDisposition(string $disposition)
+    +getNested()
+}
+
+interface StreamInterface {
+==PSR-7==
+}
+interface RequestInterface {
+==PSR-7==
+}
+
+
+abstract class AbstractNode {
+    #$name;
+    #$contentDisposition = '';
+    +__toString()
+    +add(NodeInterface $node)
+    +getName()
+    +setContentDisposition(string $disposition)
+    +getNested()
+    -getContentDisposition()
+}
+
+AbstractNode <|-- NodeInterface
+
+class Envelope {
+    const TYPE_FORM_DATA = 'multipart/form-data';
+    const TYPE_MIXED = 'multipart/mixed';
+    const ATTRIB_BOUNDARY = "boundary";
+
+    __construct(string $name, string $type='', $items = [])
+    +__toString()
+    +add(NodeInterface $node)
+    +getName()
+    +setContentDisposition(string $disposition)
+    +getNested()
+
+    -exists($name)
+    -getPrefix()
+    -getItems()
+    -getItemsAsString()
+    -getItemString($item)
+    -fixNodeContentDisposition(NodeInterface $node, string $name)
+}
+Envelope <|-- NodeInterface
+
+class Attachment {
+    -$filename = '';
+    -$stream;
+    -$mime = '';
+    -$disposition;
+
+    const DEFAULT_MIME = "application/octet-stream";
+    const BINARY_ENCODING = "content-transfer-encoding: binary\\n";
+
+    __construct(string $filename, string $name, StreamInterface $data, string $mime='', string $disposition='')
+    +__toString()
+    +getNested()
+    -headerName()
+    -getMime()
+    -isBinaryByMime(string $mimeType)
+    -contentEncoding()
+    -getContents()
+    -ifBlank($value, $default)
+}
+Attachment <|-- AbstractNode
+Attachment --o StreamInterface
+class FormInput {
+    -$value
+    __construct($name, $value)
+    +__toString()
+    +getNested()
+}
+FormInput <|-- AbstractNode
+
+annotation stream_for
+
+class FormBody {
+    -$state;
+    const HTTP_METHOD = "POST";
+
+    __construct(Envelope $initialState)
+    +addAttachment(string $name, StreamInterface $value, string $mimeType, string $fileName)
+    +addFormInput(string $name, string $value)
+    +__toString()
+    +submit(RequestInterface $request)
+}
+FormBody ..|> FormInput : uses
+FormBody ..|> Attachment : uses
+FormBody ..|> Envelope : uses
+FormBody ..|> StreamInterface : uses
+FormBody ..|> RequestInterface : uses
+FormBody ..|> stream_for : uses
+@enduml

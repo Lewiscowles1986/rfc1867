@@ -9,7 +9,15 @@ Fresh PHP implementation of rfc1867
 
 ## Working with
 
-For now it's not on packagist, so the below is for dev testing mostly
+### composer
+
+```
+composer require lewiscowles/rfc1867
+composer install
+composer dumpautoload
+```
+
+### dev testing
 
 ```
 git clone https://github.com/Lewiscowles1986/rfc1867
@@ -19,12 +27,16 @@ composer dumpautoload
 phpunit
 ```
 
+### Class Diagram
+
+![Class Relationship Diagram](diagram/class-relationship.svg?raw=true "Class Relationship Diagram")
+
 ## Contributing
 
 I'd really like to ensure this is more robust (presently it's a reference coded in a few hours)
 
 * We need issues so that unit-test cases can be made
-* We need testing with an endpoint that parses rfc1867 (much harder IMO)
+* We need testing with an endpoint that parses rfc1867
 * We need clarification on binary encoding format and to encompass that into Attachment implementation
 * We probably need to split into a few smaller projects
   * separate `NodeInterface` repo
@@ -34,9 +46,13 @@ I'd really like to ensure this is more robust (presently it's a reference coded 
   * https://www.rfc-editor.org/rfc/rfc2854.txt
   * https://www.rfc-editor.org/rfc/rfc2388.txt
   * https://www.rfc-editor.org/rfc/rfc7578.txt
+* All changes require the following
+  * tests to pass
+  * class-diagram to be updated (as necesarry)
+  * documentation to be updated (as necesarry)
 
 ## Goals
 
-* I'd love to be able to get a few more RFC's implemented with unit-tests
-* I'd like to keep the immutability of passed-in requests and objects
-* I'd like to de-couple from the `guzzle/http-message` and have that only as a dev dependency for unit-tests
+* I'd love to be able to get a few more RFC's implemented with unit-tests.
+* I'd like for this to be an alternative to reading the RFC documentation.
+* I'd like to de-couple from the `guzzle/http-message` and have that only as a dev dependency for unit-tests.
