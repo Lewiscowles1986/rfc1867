@@ -14,27 +14,18 @@ interface NodeInterface {
     +getNested()
 }
 
-interface StreamInterface {
-==PSR-7==
-}
-interface RequestInterface {
-==PSR-7==
-}
+together {
+    interface StreamInterface {
+        ==PSR-7==
+    }
+    interface RequestInterface {
+    ==PSR-7==
+    }
 
-
-abstract class AbstractNode {
-    #$name;
-    #$contentDisposition = '';
-    +__toString()
-    +add(NodeInterface $node)
-    +getName()
-    +setContentDisposition(string $disposition)
-    +getNested()
-    -getContentDisposition()
+    class stream_for {
+        ==Guzzle==
+    }
 }
-
-AbstractNode <|-- NodeInterface
-AbstractNode --o Envelope
 
 class Envelope {
     const TYPE_FORM_DATA = 'multipart/form-data';
@@ -55,38 +46,52 @@ class Envelope {
     -getItemString($item)
     -fixNodeContentDisposition(NodeInterface $node, string $name)
 }
-Envelope <|-- NodeInterface
+NodeInterface <|-- Envelope
 
-class Attachment {
-    -$filename = '';
-    -$stream;
-    -$mime = '';
-    -$disposition;
+together {
+    abstract class AbstractNode {
+        #$name;
+        #$contentDisposition = '';
+        +__toString()
+        +add(NodeInterface $node)
+        +getName()
+        +setContentDisposition(string $disposition)
+        +getNested()
+        -getContentDisposition()
+    }
+    NodeInterface <|-- AbstractNode
+    AbstractNode ..o Envelope
 
-    const DEFAULT_MIME = "application/octet-stream";
-    const BINARY_ENCODING = "content-transfer-encoding: binary\\n";
+    class Attachment {
+        -$filename = '';
+        -$stream;
+        -$mime = '';
+        -$disposition;
 
-    __construct(string $filename, string $name, StreamInterface $data, string $mime='', string $disposition='')
-    +__toString()
-    +getNested()
-    -headerName()
-    -getMime()
-    -isBinaryByMime(string $mimeType)
-    -contentEncoding()
-    -getContents()
-    -ifBlank($value, $default)
+        const DEFAULT_MIME = "application/octet-stream";
+        const BINARY_ENCODING = "content-transfer-encoding: binary\\n";
+
+        __construct(string $filename, string $name, StreamInterface $data, string $mime='', string $disposition='')
+        +__toString()
+        +getNested()
+        -headerName()
+        -getMime()
+        -isBinaryByMime(string $mimeType)
+        -contentEncoding()
+        -getContents()
+        -ifBlank($value, $default)
+    }
+    AbstractNode <|-- Attachment
+    Attachment --o StreamInterface
+
+    class FormInput {
+        -$value
+        __construct($name, $value)
+        +__toString()
+        +getNested()
+    }
+    AbstractNode <|-- FormInput
 }
-Attachment <|-- AbstractNode
-Attachment --o StreamInterface
-class FormInput {
-    -$value
-    __construct($name, $value)
-    +__toString()
-    +getNested()
-}
-FormInput <|-- AbstractNode
-
-annotation stream_for
 
 class FormBody {
     -$state;
@@ -98,9 +103,9 @@ class FormBody {
     +__toString()
     +submit(RequestInterface $request)
 }
-FormBody ..|> FormInput : internal
-FormBody ..|> Attachment : internal
-FormBody ..|> stream_for : internal
+FormBody ..* FormInput : internal
+FormBody ..* Attachment : internal
+FormBody ..* stream_for : internal
 FormBody --o Envelope
 FormBody --o StreamInterface
 FormBody --o RequestInterface
