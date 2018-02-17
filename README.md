@@ -29,7 +29,7 @@ phpunit
 
 ### Class Diagram
 
-![Class Relationship Diagram](diagram/class-relationship.svg?raw=true "Class Relationship Diagram")
+![Class Relationship Diagram](diagram/class-relationship.png?raw=true "Class Relationship Diagram")
 
 ## Contributing
 
