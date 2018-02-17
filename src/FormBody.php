@@ -8,8 +8,8 @@ use lewiscowles\Rfc\Attachment;
 use lewiscowles\Rfc\NodeInterface;
 
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamInterface;
 
-use GuzzleHttp\Psr7\Stream;
 use function GuzzleHttp\Psr7\stream_for;
 
 Final class FormBody {
@@ -21,23 +21,15 @@ Final class FormBody {
         $this->state = $initialState;
     }
 
-    public function addAttachment(string $name, Stream $value, string $mimeType, string $fileName) {
+    public function addAttachment(string $name, StreamInterface $value, string $mimeType, string $fileName) {
         $this->state->add(
             new Attachment(
                 $fileName,
                 $name,
                 $value,
-                $mimeType,
-                $this->attachmentType($name)
+                $mimeType
             )
         );
-    }
-
-    private function attachmentType($name) {
-        if($this->state->exists($name)) {
-            return NodeInterface::DISPOSITION_ATTACHMENT;
-        }
-        return NodeInterface::DISPOSITION_FORMDATA;
     }
 
     public function addFormInput(string $name, string $value) {

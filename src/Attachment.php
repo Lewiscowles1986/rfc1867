@@ -4,7 +4,7 @@ namespace lewiscowles\Rfc;
 
 use lewiscowles\Rfc\AbstractNode;
 
-use GuzzleHttp\Psr7\Stream;
+use Psr\Http\Message\StreamInterface;
 
 
 Final class Attachment extends AbstractNode {
@@ -16,7 +16,7 @@ Final class Attachment extends AbstractNode {
     const DEFAULT_MIME = "application/octet-stream";
     const BINARY_ENCODING = "content-transfer-encoding: binary\n";
 
-    public function __construct(string $filename, string $name, Stream $data, string $mime="", string $disposition="") {
+    public function __construct(string $filename, string $name, StreamInterface $data, string $mime="", string $disposition="") {
         $this->filename = $filename;
         $this->stream = $data;
         $this->mime = $this->ifBlank($mime, self::DEFAULT_MIME);

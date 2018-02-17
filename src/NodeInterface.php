@@ -18,5 +18,7 @@ interface NodeInterface {
 
     public function getName();
 
+    public function setContentDisposition(string $disposition);
+
     public function getNested();
 }

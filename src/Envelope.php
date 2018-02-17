@@ -27,25 +27,6 @@ Final class Envelope implements NodeInterface {
         );
     }
 
-    public function exists($name) {
-        return isset($this->items[$name]);
-    }
-
-    public function add(NodeInterface $node) {
-
-        $name = $node->getName();
-        if(!isset($this->items[$name])) {
-            $this->items[$name] = $node;
-        } else {
-            if(get_class($this->items[$name]) === get_class($this)) {
-                $this->items[$name]->add($node);
-            } else {
-                $this->items[$name] = $node->add($this->items[$name]);
-            }
-        }
-        return $this->items[$name];
-    }
-
     public function __toString() {
         return sprintf(
             "%s%s: %s, %s=--%s\n\n--%s\n%s--%s--%s",
@@ -59,6 +40,40 @@ Final class Envelope implements NodeInterface {
             $this->boundary,
             $this->type == self::TYPE_MIXED ? '' : "\n"
         );
+    }
+
+    public function add(NodeInterface $node) {
+
+        $name = $node->getName();
+
+        $node = $this->fixNodeContentDisposition($node, $name);
+
+        if(!isset($this->items[$name])) {
+            $this->items[$name] = $node;
+        } else {
+            if(get_class($this->items[$name]) === get_class($this)) {
+                $this->items[$name]->add($node);
+            } else {
+                $this->items[$name] = $node->add($this->items[$name]);
+            }
+        }
+        return $this->items[$name];
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function setContentDisposition(string $disposition) {
+        $this->contentDisposition = $disposition;
+    }
+
+    public function getNested() {
+        return new Envelope($this->name, self::TYPE_MIXED, $this->getItems());
+    }
+
+    private function exists($name) {
+        return isset($this->items[$name]);
     }
 
     private function getPrefix() {
@@ -89,11 +104,12 @@ Final class Envelope implements NodeInterface {
         return "{$item}\n";
     }
 
-    public function getName() {
-        return $this->name;
-    }
-
-    public function getNested() {
-        return new Envelope($this->name, self::TYPE_MIXED, $this->getItems());
+    private function fixNodeContentDisposition(NodeInterface $node, string $name) {
+      if($this->exists($name)) {
+        $node->setContentDisposition(NodeInterface::DISPOSITION_ATTACHMENT);
+      } else {
+        $node->setContentDisposition(NodeInterface::DISPOSITION_FORMDATA);
+      }
+      return $node;
     }
 }
