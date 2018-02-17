@@ -3,13 +3,16 @@
     "description": "rfc-1867 implementation for PHP",
     "type": "library",
     "require": {
-        "php": ">=5.4"
+        "php": ">=5.6",
+        "psr/http-message": "^1.0",
+        "guzzlehttp/psr7": "^1.4"
     },
     "require-dev": {
         "ext-xdebug": "*",
         "phpunit/phpunit": "^5.4"
     },
-    "license": "AGPL",
+
+    "license": "AGPL-3.0",
     "authors": [
         {
             "name": "Lewis Cowles",
@@ -17,10 +20,6 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {
-        "psr/http-message": "^1.0",
-        "guzzlehttp/psr7": "^1.4"
-    },
     "autoload": {
         "psr-4": {
             "lewiscowles\\Rfc\\": "src"
