@@ -7,6 +7,7 @@ use lewiscowles\Rfc\NodeInterface;
 
 use NotImplemented;
 
+
 abstract class AbstractNode implements NodeInterface {
     protected $name;
     protected $contentDisposition = '';
@@ -25,7 +26,7 @@ abstract class AbstractNode implements NodeInterface {
         return $envelope;
     }
 
-    public function getName() {
+    public function getName() : string {
         return $this->name;
     }
 
@@ -33,7 +34,7 @@ abstract class AbstractNode implements NodeInterface {
         $this->contentDisposition = $disposition;
     }
 
-    public function getNested() {
+    public function getNested() : NodeInterface {
         throw new NotImplemented("error");
     }
 

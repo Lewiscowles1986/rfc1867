@@ -42,7 +42,7 @@ Final class Attachment extends AbstractNode {
         );
     }
 
-    public function getNested() {
+    public function getNested() : NodeInterface {
         return new Attachment(
             $this->filename,
             $this->name,

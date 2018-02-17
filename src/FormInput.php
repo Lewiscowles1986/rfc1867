@@ -24,7 +24,7 @@ Final class FormInput extends AbstractNode {
         );
     }
 
-    public function getNested() {
+    public function getNested() : NodeInterface {
         return new FormInput($this->name, $this->value);
     }
 }

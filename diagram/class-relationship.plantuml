@@ -1,29 +1,22 @@
 @startuml
-interface NodeInterface {
-    const DISPOSITION_FORMDATA = "form-data";
-    const DISPOSITION_ATTACHMENT = "attachment";
-    const HEADER_DISPOSITION = "content-disposition";
-    const HEADER_CONTENT_TYPE = "content-type";
-    const ATTRIB_NAME = "name";
-    const ATTRIB_FILENAME = "filename";
-
-    +__toString()
-    +add(NodeInterface $node)
-    +getName()
-    +setContentDisposition(string $disposition)
-    +getNested()
-}
-
 together {
+    interface NodeInterface {
+        const DISPOSITION_FORMDATA = "form-data";
+        const DISPOSITION_ATTACHMENT = "attachment";
+        const HEADER_DISPOSITION = "content-disposition";
+        const HEADER_CONTENT_TYPE = "content-type";
+        const ATTRIB_NAME = "name";
+        const ATTRIB_FILENAME = "filename";
+
+        +__toString()
+        +add(NodeInterface $node)
+        +getName()
+        +setContentDisposition(string $disposition)
+        +getNested()
+    }
+
     interface StreamInterface {
         ==PSR-7==
-    }
-    interface RequestInterface {
-    ==PSR-7==
-    }
-
-    class stream_for {
-        ==Guzzle==
     }
 }
 
@@ -95,18 +88,14 @@ together {
 
 class FormBody {
     -$state;
-    const HTTP_METHOD = "POST";
 
     __construct(Envelope $initialState)
     +addAttachment(string $name, StreamInterface $value, string $mimeType, string $fileName)
     +addFormInput(string $name, string $value)
     +__toString()
-    +submit(RequestInterface $request)
 }
 FormBody ..* FormInput : internal
 FormBody ..* Attachment : internal
-FormBody ..* stream_for : internal
 FormBody --o Envelope
 FormBody --o StreamInterface
-FormBody --o RequestInterface
 @enduml

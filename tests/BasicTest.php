@@ -28,19 +28,14 @@ class BasicTest extends TestCase
     /**
      * @test
      */
-    public function it_accepts_any_valid_psr7_requestinterface_implementation() {
-        $request = new Request('GET', 'https://www.github.com');
-        $out = $this->body->submit($request);
-        $this->assertTrue($out->getMethod() == FormBody::HTTP_METHOD);
-    }
-
-    /**
-     * @test
-     */
-    public function it_does_not_mutate_requests() {
-        $request = new Request('GET', 'https://www.github.com');
-        $out = $this->body->submit($request);
-        $this->assertTrue($request->getMethod() != $out->getMethod());
+    public function it_can_be_passed_to_a_psr7_compatible_request_as_body() {
+        $request = new Request('POST', 'https://www.github.com');
+        $out = $request->withBody(stream_for("$this->body"));
+        $this->assertNotEquals(
+            $request->getBody()->getContents(),
+            $out->getBody()->getContents(),
+            "The Body Has Not Been Modified"
+        );
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace lewiscowles\Rfc;
 
+
 interface NodeInterface {
 
     const DISPOSITION_FORMDATA = "form-data";
@@ -16,9 +17,9 @@ interface NodeInterface {
 
     public function add(NodeInterface $node);
 
-    public function getName();
+    public function getName() : string;
 
     public function setContentDisposition(string $disposition);
 
-    public function getNested();
+    public function getNested() : NodeInterface;
 }

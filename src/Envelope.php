@@ -60,7 +60,7 @@ Final class Envelope implements NodeInterface {
         return $this->items[$name];
     }
 
-    public function getName() {
+    public function getName() : string {
         return $this->name;
     }
 
@@ -68,7 +68,7 @@ Final class Envelope implements NodeInterface {
         $this->contentDisposition = $disposition;
     }
 
-    public function getNested() {
+    public function getNested() : NodeInterface {
         return new Envelope($this->name, self::TYPE_MIXED, $this->getItems());
     }
 
