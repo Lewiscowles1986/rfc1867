@@ -11,12 +11,8 @@ abstract class AbstractNode implements NodeInterface {
     protected $name;
     protected $contentDisposition = '';
 
-    public function getName() {
-        return $this->name;
-    }
-
-    protected function getContentDisposition() {
-        return $this->contentDisposition;
+    public function __toString() {
+        throw new NotImplemented("error");
     }
 
     public function add(NodeInterface $node) {
@@ -29,11 +25,15 @@ abstract class AbstractNode implements NodeInterface {
         return $envelope;
     }
 
+    public function getName() {
+        return $this->name;
+    }
+
     public function getNested() {
         throw new NotImplemented("error");
     }
 
-    public function __toString() {
-        throw new NotImplemented("error");
+    protected function getContentDisposition() {
+        return $this->contentDisposition;
     }
 }

@@ -27,14 +27,6 @@ Final class Attachment extends AbstractNode {
         $this->name = $name;
     }
 
-    public function ifBlank($value, $default) {
-        return $value == "" ? $default : $value;
-    }
-
-    public function getName() {
-        return $this->name;
-    }
-
     public function __toString() {
         return sprintf(
             "%s: %s;%s %s=\"%s\"\n%s: %s\n%s\n%s",
@@ -50,28 +42,6 @@ Final class Attachment extends AbstractNode {
         );
     }
 
-    private function headerName() {
-        if($this->disposition === self::DISPOSITION_FORMDATA) {
-            return sprintf(" %s=\"%s\";", self::ATTRIB_NAME, $this->name);
-        }
-        return "";
-    }
-
-    public function getMime() {
-        return $this->mime;
-    }
-
-    public function isBinaryByMime(string $mimeType) {
-        return (substr( $mimeType, 0, 5 ) !== "text/");
-    }
-
-    public function contentEncoding() {
-        if($this->isBinaryByMime($this->mime)) {
-            return self::BINARY_ENCODING;
-        }
-        return "";
-    }
-
     public function getNested() {
         return new Attachment(
             $this->filename,
@@ -82,7 +52,29 @@ Final class Attachment extends AbstractNode {
         );
     }
 
-    public function getContents() {
+    private function headerName() {
+        if($this->disposition === self::DISPOSITION_FORMDATA) {
+            return sprintf(" %s=\"%s\";", self::ATTRIB_NAME, $this->name);
+        }
+        return "";
+    }
+
+    private function getMime() {
+        return $this->mime;
+    }
+
+    private function isBinaryByMime(string $mimeType) {
+        return (substr( $mimeType, 0, 5 ) !== "text/");
+    }
+
+    private function contentEncoding() {
+        if($this->isBinaryByMime($this->mime)) {
+            return self::BINARY_ENCODING;
+        }
+        return "";
+    }
+
+    private function getContents() {
         $out = "{$this->stream}";
         /*
         if($this->isBinaryByMime($this->mime)) {
@@ -90,5 +82,9 @@ Final class Attachment extends AbstractNode {
         }
         */
         return $out;
+    }
+
+    private function ifBlank($value, $default) {
+        return $value == "" ? $default : $value;
     }
 }
