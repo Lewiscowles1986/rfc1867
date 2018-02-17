@@ -34,6 +34,7 @@ abstract class AbstractNode {
 }
 
 AbstractNode <|-- NodeInterface
+AbstractNode --o Envelope
 
 class Envelope {
     const TYPE_FORM_DATA = 'multipart/form-data';
@@ -97,10 +98,10 @@ class FormBody {
     +__toString()
     +submit(RequestInterface $request)
 }
-FormBody ..|> FormInput : uses
-FormBody ..|> Attachment : uses
-FormBody ..|> Envelope : uses
-FormBody ..|> StreamInterface : uses
-FormBody ..|> RequestInterface : uses
-FormBody ..|> stream_for : uses
+FormBody ..|> FormInput : internal
+FormBody ..|> Attachment : internal
+FormBody ..|> stream_for : internal
+FormBody --o Envelope
+FormBody --o StreamInterface
+FormBody --o RequestInterface
 @enduml

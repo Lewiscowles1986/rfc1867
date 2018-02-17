@@ -5,12 +5,12 @@ namespace lewiscowles\Rfc;
 use lewiscowles\Rfc\Envelope;
 use lewiscowles\Rfc\FormInput;
 use lewiscowles\Rfc\Attachment;
-use lewiscowles\Rfc\NodeInterface;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 
 use function GuzzleHttp\Psr7\stream_for;
+
 
 Final class FormBody {
 
