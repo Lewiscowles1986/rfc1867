@@ -1,6 +1,6 @@
 <?php
 
-namespace lewiscowles\Rfc;
+namespace lewiscowles\Rfc\Node;
 
 use lewiscowles\Rfc\Envelope;
 use lewiscowles\Rfc\NodeInterface;

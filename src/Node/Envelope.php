@@ -1,6 +1,6 @@
 <?php
 
-namespace lewiscowles\Rfc;
+namespace lewiscowles\Rfc\Node;
 
 use lewiscowles\Rfc\NodeInterface;
 
@@ -111,5 +111,21 @@ Final class Envelope implements NodeInterface {
         $node->setContentDisposition(NodeInterface::DISPOSITION_FORMDATA);
       }
       return $node;
+    }
+
+
+    public function addAttachment(string $name, StreamInterface $value, string $mimeType, string $fileName) {
+        $this->add(
+            new Attachment(
+                $fileName,
+                $name,
+                $value,
+                $mimeType
+            )
+        );
+    }
+
+    public function addFormInput(string $name, string $value) {
+        $this->add(new FormInput($name, $value));
     }
 }
