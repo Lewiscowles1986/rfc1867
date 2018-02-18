@@ -2,10 +2,8 @@
 
 namespace lewiscowles\Rfc\Node;
 
-use lewiscowles\Rfc\AbstractNode;
-
+use lewiscowles\Rfc\NodeInterface;
 use Psr\Http\Message\StreamInterface;
-
 
 Final class Attachment extends AbstractNode {
     private $filename = '';

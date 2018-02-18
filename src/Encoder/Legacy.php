@@ -4,6 +4,7 @@ namespace lewiscowles\Rfc\Encoder;
 
 use Http\Message\StreamFactory;
 use lewiscowles\Rfc\NodeInterface;
+use lewiscowles\Rfc\EncoderInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**

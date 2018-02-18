@@ -2,9 +2,7 @@
 
 namespace lewiscowles\Rfc\Node;
 
-use lewiscowles\Rfc\Envelope;
 use lewiscowles\Rfc\NodeInterface;
-
 use NotImplemented;
 
 

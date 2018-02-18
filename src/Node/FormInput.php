@@ -2,8 +2,7 @@
 
 namespace lewiscowles\Rfc\Node;
 
-use lewiscowles\Rfc\AbstractNode;
-
+use lewiscowles\Rfc\NodeInterface;
 
 Final class FormInput extends AbstractNode {
     private $value;

@@ -5,9 +5,11 @@ use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Psr7\Request;
 use function GuzzleHttp\Psr7\stream_for;
 
-use lewiscowles\Rfc\Envelope;
-use lewiscowles\Rfc\FormBody;
+use lewiscowles\Rfc\Manager;
 use lewiscowles\Rfc\NodeInterface;
+use lewiscowles\Rfc\Node\Envelope;
+use lewiscowles\Rfc\Encoder\Legacy;
+use Http\Message\StreamFactory\GuzzleStreamFactory;
 
 class BasicTest extends TestCase
 {
@@ -22,7 +24,13 @@ class BasicTest extends TestCase
 
     public function setup()
     {
-        $this->body = new FormBody(new Envelope('ROOT'));
+        $this->body = new Envelope('ROOT');
+
+        $this->manager = new Manager(
+            new Legacy(
+                new GuzzleStreamFactory()
+            )
+        );
     }
 
     /**
@@ -84,6 +92,38 @@ class BasicTest extends TestCase
         $this->assertContains(self::FILE1_TEXT_MULTI, $body);
         $this->assertContains(self::FILE2_TEXT_MULTI, $body);
         //file_put_contents(__DIR__ . '/../log/out', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function manager_updates_request_method() {
+        $request = new Request('GET', 'https://www.github.com');
+
+        $request = $this->manager->configureRequest($request, $this->body);
+
+        $this->assertSame('POST', $request->getMethod());
+    }
+
+    /**
+     * @test
+     */
+    public function manager_produces_the_output_described_in_rfc_example2() {
+        $this->body->addFormInput('submitter', 'Joe Blow');
+
+        // note when adding multiple attachments, the value changes after the first is added.
+        $this->body->addAttachment('pics', stream_for('...contents of file1.txt...'), 'text/plain', 'file1.txt');
+        $this->body->addAttachment('pics', stream_for('...contents of file2.gif...'), 'image/gif', 'file2.gif');
+
+        $request = new Request('GET', 'https://www.github.com');
+
+        $request = $this->manager->configureRequest($request, $this->body);
+        $body = (string)$request->getBody();
+
+        $this->assertContains(self::JOE_BLOW_TEXT, $body);
+        $this->assertContains(self::ENVELOPE_MULTI, $body);
+        $this->assertContains(self::FILE1_TEXT_MULTI, $body);
+        $this->assertContains(self::FILE2_TEXT_MULTI, $body);
     }
 
     protected function getValue($type) {

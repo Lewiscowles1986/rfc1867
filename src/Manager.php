@@ -38,7 +38,7 @@ class Manager
             ->withBody($this->encoder->encode($body))
             ->withMethod('POST')
             // there we got a problem
-            ->withHeader('Content-Type', 'multipart/form-data; boundary=')
+            //->withHeader('Content-Type', 'multipart/form-data; boundary=')
         ;
     }
 }

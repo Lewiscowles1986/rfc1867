@@ -3,7 +3,7 @@
 namespace lewiscowles\Rfc\Node;
 
 use lewiscowles\Rfc\NodeInterface;
-
+use Psr\Http\Message\StreamInterface;
 
 Final class Envelope implements NodeInterface {
 
