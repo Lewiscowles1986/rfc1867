@@ -29,7 +29,13 @@ phpunit
 
 ### Class Diagram
 
+#### Overview (using plantUML)
+
 ![Class Relationship Diagram](diagram/class-relationship.png?raw=true "Class Relationship Diagram")
+
+#### Application-level view (powerpoint + plantUML SVG output)
+
+![Another Class Relationship Diagram](https://github.com/Lewiscowles1986/rfc1867/blob/master/diagram/Another-Class-Relationship-Diagram.png)
 
 ## Contributing
 
