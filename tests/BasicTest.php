@@ -8,7 +8,7 @@ use function GuzzleHttp\Psr7\stream_for;
 use lewiscowles\Rfc\Manager;
 use lewiscowles\Rfc\NodeInterface;
 use lewiscowles\Rfc\Node\Envelope;
-use lewiscowles\Rfc\Encoder\Legacy;
+use lewiscowles\Rfc\Encoder;
 use Http\Message\StreamFactory\GuzzleStreamFactory;
 
 class BasicTest extends TestCase
@@ -26,9 +26,12 @@ class BasicTest extends TestCase
     {
         $this->body = new Envelope('ROOT');
 
+        $factory = new GuzzleStreamFactory();
         $this->manager = new Manager(
-            new Legacy(
-                new GuzzleStreamFactory()
+            new Encoder\Envelope(
+                $factory,
+                new Encoder\FormInput($factory),
+                new Encoder\Attachment($factory)
             )
         );
     }

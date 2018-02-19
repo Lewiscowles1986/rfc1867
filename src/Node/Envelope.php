@@ -76,7 +76,7 @@ Final class Envelope implements NodeInterface {
         return isset($this->items[$name]);
     }
 
-    private function getPrefix() {
+    public function getPrefix() {
         if($this->type == self::TYPE_MIXED) {
             return sprintf(
                 "%s: %s; %s=\"%s\"\n",
@@ -89,7 +89,12 @@ Final class Envelope implements NodeInterface {
         return "";
     }
 
-    private function getItems() {
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function getItems() {
         return $this->items;
     }
 

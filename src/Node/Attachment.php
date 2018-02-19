@@ -50,29 +50,39 @@ Final class Attachment extends AbstractNode {
         );
     }
 
-    private function headerName() {
+    public function headerName() {
         if($this->disposition === self::DISPOSITION_FORMDATA) {
             return sprintf(" %s=\"%s\";", self::ATTRIB_NAME, $this->name);
         }
         return "";
     }
 
-    private function getMime() {
+    public function getMime() {
         return $this->mime;
     }
 
-    private function isBinaryByMime(string $mimeType) {
+    public function isBinaryByMime(string $mimeType) {
         return (substr( $mimeType, 0, 5 ) !== "text/");
     }
 
-    private function contentEncoding() {
+    public function contentEncoding() {
         if($this->isBinaryByMime($this->mime)) {
             return self::BINARY_ENCODING;
         }
         return "";
     }
 
-    private function getContents() {
+    public function getDisposition()
+    {
+        return $this->disposition;
+    }
+
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    public function getContents() {
         $out = "{$this->stream}";
         /*
         if($this->isBinaryByMime($this->mime)) {
