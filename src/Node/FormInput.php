@@ -1,9 +1,8 @@
 <?php
 
-namespace lewiscowles\Rfc;
+namespace lewiscowles\Rfc\Node;
 
-use lewiscowles\Rfc\AbstractNode;
-
+use lewiscowles\Rfc\NodeInterface;
 
 Final class FormInput extends AbstractNode {
     private $value;
@@ -26,5 +25,10 @@ Final class FormInput extends AbstractNode {
 
     public function getNested() : NodeInterface {
         return new FormInput($this->name, $this->value);
+    }
+
+    public function getValue()
+    {
+        return $this->value;
     }
 }

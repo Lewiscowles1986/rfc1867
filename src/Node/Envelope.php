@@ -1,9 +1,9 @@
 <?php
 
-namespace lewiscowles\Rfc;
+namespace lewiscowles\Rfc\Node;
 
 use lewiscowles\Rfc\NodeInterface;
-
+use Psr\Http\Message\StreamInterface;
 
 Final class Envelope implements NodeInterface {
 
@@ -76,7 +76,7 @@ Final class Envelope implements NodeInterface {
         return isset($this->items[$name]);
     }
 
-    private function getPrefix() {
+    public function getPrefix() {
         if($this->type == self::TYPE_MIXED) {
             return sprintf(
                 "%s: %s; %s=\"%s\"\n",
@@ -89,7 +89,12 @@ Final class Envelope implements NodeInterface {
         return "";
     }
 
-    private function getItems() {
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function getItems() {
         return $this->items;
     }
 
@@ -111,5 +116,21 @@ Final class Envelope implements NodeInterface {
         $node->setContentDisposition(NodeInterface::DISPOSITION_FORMDATA);
       }
       return $node;
+    }
+
+
+    public function addAttachment(string $name, StreamInterface $value, string $mimeType, string $fileName) {
+        $this->add(
+            new Attachment(
+                $fileName,
+                $name,
+                $value,
+                $mimeType
+            )
+        );
+    }
+
+    public function addFormInput(string $name, string $value) {
+        $this->add(new FormInput($name, $value));
     }
 }
