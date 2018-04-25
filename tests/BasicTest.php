@@ -1,5 +1,7 @@
 <?php
 
+namespace lewiscowles\Rfc;
+
 use PHPUnit\Framework\TestCase;
 
 use GuzzleHttp\Psr7\Request;
@@ -43,6 +45,7 @@ class BasicTest extends TestCase
      */
     public function it_accepts_a_form_input() {
         $this->body->addFormInput('number', $this->getValue('number'));
+        $this->assertContains('name="number"', (string) $this->body);
     }
 
     /**
@@ -52,6 +55,9 @@ class BasicTest extends TestCase
         $this->body->addFormInput('number', $this->getValue('number'));
         $this->body->addFormInput('float', $this->getValue('float'));
         $this->body->addFormInput('string', $this->getValue('string'));
+        $this->assertContains('name="number"', (string) $this->body);
+        $this->assertContains('name="float"', (string) $this->body);
+        $this->assertContains('name="string"', (string) $this->body);
     }
 
     /**

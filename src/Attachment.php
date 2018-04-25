@@ -7,7 +7,7 @@ use lewiscowles\Rfc\AbstractNode;
 use Psr\Http\Message\StreamInterface;
 
 
-Final class Attachment extends AbstractNode {
+final class Attachment extends AbstractNode {
     private $filename = '';
     private $stream;
     private $mime = '';
