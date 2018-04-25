@@ -1,4 +1,7 @@
 # rfc1867
+
+[![Build Status](https://travis-ci.org/Lewiscowles1986/rfc1867.svg?branch=master)](https://travis-ci.org/Lewiscowles1986/rfc1867)
+
 Fresh PHP implementation of rfc1867
 
 * Originally I had planned on using https://github.com/imiskolee/FormUpload
