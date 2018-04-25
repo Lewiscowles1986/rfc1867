@@ -5,7 +5,7 @@ namespace lewiscowles\Rfc;
 use lewiscowles\Rfc\NodeInterface;
 
 
-Final class Envelope implements NodeInterface {
+final class Envelope implements NodeInterface {
 
     const TYPE_FORM_DATA = 'multipart/form-data';
     const TYPE_MIXED = 'multipart/mixed';

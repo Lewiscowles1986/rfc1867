@@ -5,7 +5,7 @@ namespace lewiscowles\Rfc;
 use lewiscowles\Rfc\AbstractNode;
 
 
-Final class FormInput extends AbstractNode {
+final class FormInput extends AbstractNode {
     private $value;
 
     public function __construct($name, $value) {
