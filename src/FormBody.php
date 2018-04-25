@@ -9,7 +9,7 @@ use lewiscowles\Rfc\Attachment;
 use Psr\Http\Message\StreamInterface;
 
 
-Final class FormBody {
+final class FormBody {
 
     private $state;
 
