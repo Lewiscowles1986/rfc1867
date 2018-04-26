@@ -27,7 +27,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "lewiscowles\\Rfc\\": "tests"
+            "lewiscowles\\Rfc\\Tests\\": "tests"
         }
     }
 }

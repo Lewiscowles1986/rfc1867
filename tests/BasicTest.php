@@ -1,6 +1,6 @@
 <?php
 
-namespace lewiscowles\Rfc;
+namespace lewiscowles\Rfc\Tests;
 
 use PHPUnit\Framework\TestCase;
 
